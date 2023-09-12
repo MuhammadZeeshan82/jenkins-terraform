@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                script {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                script {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            stage('Terraform Output') {
+                steps {
+                    script {
+                        sh 'terraform output'  # You can display Terraform output variables here if needed
+                    }
+                }
+            }
+        }
+
+        always {
+            stage('Terraform Destroy') {
+                steps {
+                    script {
+                        sh 'terraform destroy -auto-approve'  # Clean up resources after testing
+                    }
+                }
+            }
+        }
+    }
+}
