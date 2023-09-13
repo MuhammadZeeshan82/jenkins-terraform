@@ -30,7 +30,7 @@ pipeline {
             stage('Terraform Output') {
                 steps {
                     script {
-                        sh 'terraform output'  # You can display Terraform output variables here if needed
+                        sh 'terraform output'
                     }
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
             stage('Terraform Destroy') {
                 steps {
                     script {
-                        sh 'terraform destroy -auto-approve'  # Clean up resources after testing
+                        sh 'terraform destroy -auto-approve'
                     }
                 }
             }
